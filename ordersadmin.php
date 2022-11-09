@@ -23,6 +23,7 @@ if (!isset($_SESSION['loggedin'])) {
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -76,25 +77,26 @@ if (!isset($_SESSION['loggedin'])) {
       <div class="col-12 mb-3">
         <h1>SOFIA Orders</h1>
       </div>
-      <div class="col-12">
+      <!-- <div class="col-12">
         <form action="ordersadmin.php" method="POST">
           <div class="input-group mb-3">
             <input type="text" name="search" class="form-control" placeholder="Search Transaction Number" aria-label="Search Products" aria-describedby="button-addon2">
             <button class="btn btn-danger" style="width: 15vh;" type="submit" id="button-addon2">Search</button>
           </div>
         </form>
-      </div>
-      <div class="col-12 overflow-auto" style="height: 60vh; background-color: #f2f2f2;">
-        <table class="table table-striped" id="myTable">
-          <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+      </div> -->
+      <div class="col-12 overflow-auto">
+        <table class="table table-striped bg-white" id="myTable">
+          <thead class="table-dark" >
             <tr>
               <th scope="col" style="text-align:center;vertical-align:middle; display:none">Order ID</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Transaction No</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Customer ID</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Product ID</th>
+              <th scope="col" style="text-align:center;vertical-align:middle">Customer Name</th>
+              <!-- <th scope="col" style="text-align:center;vertical-align:middle">Product ID</th> -->
               <th scope="col" style="text-align:center;vertical-align:middle">Product Name</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Quantity</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Total</th>
+              <th scope="col" style="text-align:center;vertical-align:middle">Order Date</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Order Status</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Action</th>
             </tr>
@@ -106,16 +108,16 @@ if (!isset($_SESSION['loggedin'])) {
             if (isset($_POST['search']) && $_POST['search'] != '') {
               $search = $_POST['search'];
 
-              $query = "SELECT * FROM order_data WHERE order_status = 'PENDING' AND order_no LIKE '%$search%'";
+              $query = "SELECT order_data.*, user_table.name FROM order_data INNER JOIN user_table ON user_table.ID=order_data.customer_id WHERE order_status = 'PENDING' AND order_no LIKE '%$search%'";
             } else {
-              $query = "SELECT * FROM order_data WHERE order_status = 'PENDING'";
+              $query = "SELECT order_data.*, user_table.name FROM order_data INNER JOIN user_table ON user_table.ID=order_data.customer_id WHERE order_status = 'PENDING'";
             }
 
             $sql = mysqli_query($sqlcon, $query);
             $counter = 0;
             while ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
               $oid = $row['order_id'];
-              $id = $row["customer_id"];
+              $custName = $row["name"];
               $pid = $row["product_id"];
               $pname = $row["prod_name"];
               $qty = $row["qty"];
@@ -127,11 +129,12 @@ if (!isset($_SESSION['loggedin'])) {
               <tr>
                 <th scope="row" style="width: 20vh; text-align:center;vertical-align:middle;display:none"><?php echo "$oid" ?></th>
                 <td style="width: 40vh; text-align:center;vertical-align:middle"><?php echo "$orderno" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$id" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$pid" ?></td>
+                <td class="text-capitalize" style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$custName" ?></td>
+                <!-- <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$pid" ?></td> -->
                 <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$pname" ?></td>
                 <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$qty" ?></td>
                 <td style="width: 40vh; text-align:center;vertical-align:middle"><?php echo "$total" ?></td>
+                <td style="width: 40vh; text-align:center;vertical-align:middle"><?php echo date_format(date_create($row["date"]), 'M d, Y') ?></td>
                 <td style="width: 40vh; text-align:center;vertical-align:middle; 
                 <?php if ($orderstatus == "PENDING") {
                   echo 'color: #cf550e;';
@@ -160,8 +163,10 @@ if (!isset($_SESSION['loggedin'])) {
 
                   <?php
                   if ($orderstatus == "PENDING") {
-                    echo '<button style="vertical-align:middle;width: 15vh; margin-top: 5px;" type="button" class="openupModal btn btn-success"  data-bs-toggle="modal" data-bs-target="#successModal";  data-dismiss="modal";>CLAIM</button></a><br>';
-                    echo '<button style="vertical-align:middle;width: 15vh; margin-top: 5px;" type="button" class="openupModal btn btn-danger"  data-bs-toggle="modal" data-bs-target="#cancelModal";  data-dismiss="modal";>CANCEL</button></a>';
+                    echo '<div class="btn-group" role="group" aria-label="Basic example">';
+                    echo '<button type="button" class="openupModal btn btn-success"  data-bs-toggle="modal" data-bs-target="#successModal";  data-bs-dismiss="modal";>CLAIM</button></a><br>';
+                    echo '<button type="button" class="openupModal btn btn-danger"  data-bs-toggle="modal" data-bs-target="#cancelModal";  data-bs-dismiss="modal";>CANCEL</button></a>';
+                    echo ' </div>';
                   } else if ($orderstatus == "CLAIMED") {
                     echo 'ORDER COMPLETE';
                   } else if ($orderstatus == "CANCELLED") {
@@ -188,7 +193,7 @@ if (!isset($_SESSION['loggedin'])) {
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="com-name"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -196,7 +201,7 @@ if (!isset($_SESSION['loggedin'])) {
                         Orders Complete?
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <form action="executionFile/orderstat.php" method="POST">
                           <input type="hidden" id="com-id" name="com-id" value="" />
                           <input type="hidden" id="com-cusid" name="cusid" value="" />
@@ -215,7 +220,7 @@ if (!isset($_SESSION['loggedin'])) {
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="can-name"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -223,7 +228,7 @@ if (!isset($_SESSION['loggedin'])) {
               Do you really want to cancel this order?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <form action="executionFile/orderstat.php" method="POST">
                 <input type="hidden" id="can-id" name="can-id" value="" />
                 <input type="hidden" id="can-cusid" name="cusid" value="" />
@@ -236,6 +241,15 @@ if (!isset($_SESSION['loggedin'])) {
         </div>
       </div>
 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+      <script>
+        $(document).ready(function() {
+          $('#myTable').DataTable();
+        });
+      </script>
       <script>
         $("#myTable").on('click', '.openupModal', function() {
           var currentRow = $(this).closest("tr");

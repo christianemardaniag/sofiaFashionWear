@@ -240,7 +240,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="productname">Confirm Order</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -262,8 +262,8 @@
         </div>
       </div>
       <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" data-bs-toggle='modal' onclick="generate();" data-bs-target='#receiptModal'  data-dismiss="modal" class="btn btn-danger">Confirm</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" data-bs-toggle='modal' onclick="generate();" data-bs-target='#receiptModal'  data-bs-dismiss="modal" class="btn btn-danger">Confirm</button>
       </div>
     </div>
   </div>
@@ -363,7 +363,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="productname">Update Item</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -383,7 +383,7 @@
           <input type="hidden" id="prices" name="prices" value="">
       </div>
       <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-warning">Update Item</button>
         </form>
       </div>

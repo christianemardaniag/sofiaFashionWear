@@ -189,7 +189,7 @@
                   <?php
 
                   if($orderstatus == "CLAIMED" && $rated == "NOT"){
-                    echo '<button style="vertical-align:middle;width: 20vh; margin-top: 5px;" type="button" class="openupModal btn btn-warning"  data-bs-toggle="modal" data-bs-target="#rateModal";  data-dismiss="modal";>Rate</button></a>';
+                    echo '<button style="vertical-align:middle;width: 20vh; margin-top: 5px;" type="button" class="openupModal btn btn-warning"  data-bs-toggle="modal" data-bs-target="#rateModal";  data-bs-dismiss="modal";>Rate</button></a>';
                   }
                   else if($orderstatus == "CLAIMED" && $rated == "DONE"){
                     echo '<button style="vertical-align:middle; width: 20vh; margin-top: 5px;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#doneModal";>Claimed</button>';
@@ -251,7 +251,7 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
           <input type="hidden" id="rateID" name="rateID" value=""/>
           <input type="hidden" id="orderno" name="orderno" value=""/>
           <button type="submit" class="btn btn-warning" id ="adders">Rate</button>
@@ -274,8 +274,8 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-          <button type="button" data-dismiss="modal" class="btn btn-primary">You're welcome!</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-primary">You're welcome!</button>
         </form>
       </div>
     </div>
@@ -300,8 +300,8 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-          <button type="button" data-dismiss="modal" class="btn btn-danger">I Understand</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-danger">I Understand</button>
         </form>
       </div>
     </div>
@@ -321,7 +321,7 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-secondary">No</button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">No</button>
           <form action = "executionFile/cancelorder.php" method="POST">
             <input type="hidden" id="cancel-ords" name="cancel-ords" value=""/>
             <input type="hidden" id="cancel-ordno" name="cancel-ordno" value=""/>

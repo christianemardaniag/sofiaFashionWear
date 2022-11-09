@@ -23,6 +23,7 @@ if (!isset($_SESSION['loggedin'])) {
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 
 <body style="background-color: #b7e1e8;">
@@ -76,26 +77,24 @@ if (!isset($_SESSION['loggedin'])) {
       <div class="col-12 mb-3">
         <h1>SOFIA Users</h1>
       </div>
-      <div class="col-12">
+      <!-- <div class="col-12">
         <form action="usersadmin.php" method="POST">
           <div class="input-group mb-3">
             <input type="text" name="search" class="form-control" placeholder="Search Username" aria-label="Search Products" aria-describedby="button-addon2">
             <button class="btn btn-danger" style="width: 15vh;" type="submit" id="button-addon2">Search</button>
           </div>
         </form>
-      </div>
-      <div class="col-12 overflow-auto" style="height: 60vh; background-color: #f2f2f2;">
-        <table class="table table-striped" id="myTable">
-          <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+      </div> -->
+      <div class="col-12">
+        <table class="table table-striped bg-white" id="myTable">
+          <thead class="table-dark">
             <tr>
-              <th scope="col" style="text-align:center;vertical-align:middle">User ID</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Name</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Address</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Email Address</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Phone No</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Username</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Password</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Action</th>
+              <th class="text-center">User ID</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Email Address</th>
+              <th>Phone No</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -119,23 +118,23 @@ if (!isset($_SESSION['loggedin'])) {
             while ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
               $id = $row["ID"];
               $name = $row["name"];
-              $uname = $row["username"];
+              // $uname = $row["username"];
               $password = $row["password"];
               $address = $row["address"];
               $email = $row["email_add"];
               $phoneno = $row["phoneno"];
               $counter += 1; ?>
               <tr>
-                <th scope="row" style="width: 10vh; text-align:center;vertical-align:middle"><?php echo "$id" ?></th>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$name" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$address" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$email" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$phoneno" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$uname" ?></td>
-                <td style="width: 20vh; text-align:center; vertical-align:middle"><?php echo "$password" ?></td>
-                <td style="width: 20vh; text-align:center;vertical-align:middle;">
-                  <button style="vertical-align:middle;width: 15vh; margin-top: 5px;" type="button" class="openupModal btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal" ; data-dismiss="modal" ;>UPDATE</button></a><br>
-                  <button style="vertical-align:middle;width: 15vh; margin-top: 5px;" type="button" class="openupModal btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeModal" ; data-dismiss="modal" ;>REMOVE</button></a>
+                <td class="text-center"><?php echo "$id" ?></td>
+                <td class="text-capitalize"><?php echo "$name" ?></td>
+                <td class="text-capitalize"><?php echo "$address" ?></td>
+                <td><?php echo "$email" ?></td>
+                <td><?php echo "$phoneno" ?></td>
+                <td class="text-center">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="openupModal btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal" ; data-bs-dismiss="modal" ;>UPDATE</button>
+                    <button type="button" class="openupModal btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeModal" ; data-bs-dismiss="modal" ;>REMOVE</button>
+                  </div>
                 </td>
               </tr>
             <?php } ?>
@@ -156,7 +155,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="username"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -164,7 +163,7 @@ if (!isset($_SESSION['loggedin'])) {
         Are you sure you want to delete this user?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <form action="executionFile/deleteuser.php" method="POST">
           <input type="hidden" id="usersid" name="userid" value="" />
           <button type="submit" class="btn btn-danger">Remove</button>
@@ -180,7 +179,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Update User</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -206,23 +205,33 @@ if (!isset($_SESSION['loggedin'])) {
             <label for="category" class="col-form-label">Phone No:</label>
             <input type="text" class="form-control" id="upn" name="upn" required>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="category" class="col-form-label">Username:</label>
             <input type="text" class="form-control" id="usname" name="usname" required>
           </div>
           <div class="form-group">
             <label for="category" class="col-form-label">Password:</label>
             <input type="text" class="form-control" id="upass" name="upass" placeholder="New Password (Leave empty if not required to edit)">
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-warning">Update User</button>
       </form>
     </div>
   </div>
 </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#myTable').DataTable();
+  });
+</script>
 
 <script>
   $("#myTable").on('click', '.openupModal', function() {
@@ -232,7 +241,7 @@ if (!isset($_SESSION['loggedin'])) {
     var address = currentRow.find("td:eq(1)").text();
     var email = currentRow.find("td:eq(2)").text();
     var phone = currentRow.find("td:eq(3)").text();
-    var username = currentRow.find("td:eq(4)").text();
+    // var username = currentRow.find("td:eq(4)").text();
 
     //DELETE
     document.getElementById("username").innerHTML = name;
@@ -244,6 +253,6 @@ if (!isset($_SESSION['loggedin'])) {
     document.getElementById("uad").value = address;
     document.getElementById("uem").value = email;
     document.getElementById("upn").value = phone;
-    document.getElementById("usname").value = username;
+    // document.getElementById("usname").value = username;
   });
 </script>

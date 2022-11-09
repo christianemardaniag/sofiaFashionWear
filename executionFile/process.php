@@ -2,7 +2,7 @@
 require("../config.php");
 
 if (isset($_POST["transaction"])) {
-    $query = "SELECT order_data.*, user_table.name FROM order_data INNER JOIN user_table ON user_table.ID=order_data.customer_id WHERE order_status != 'PENDING' ORDER BY order_id DESC;";
+    $query = "SELECT order_data.*, user_table.name FROM order_data INNER JOIN user_table ON user_table.ID=order_data.customer_id WHERE order_status != 'PENDING' ORDER BY transaction_date DESC;";
     $data = array();
     $sql = mysqli_query($sqlcon, $query);
     while ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
@@ -21,7 +21,8 @@ if (isset($_POST["transaction"])) {
             "quantity" => $row['qty'],
             "total" => $row['total'],
             "dateTime" => date_format(date_create($row["date"]),'M d, Y'),
-            "orderStatus" => $row['order_status']
+            "orderStatus" => $row['order_status'],
+            "transactionDate" => date_format(date_create($row["transaction_date"]),'M d, Y h:i a'),
         ];
     }
     echo json_encode($data);

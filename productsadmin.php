@@ -13,6 +13,7 @@ if (!isset($_SESSION['loggedin'])) {
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 
 <style>
@@ -24,6 +25,10 @@ if (!isset($_SESSION['loggedin'])) {
   .navbar {
     background: rgb(180, 226, 233);
     background: linear-gradient(7deg, rgba(180, 226, 233, 1) 0%, rgba(217, 243, 247, 1) 60%);
+  }
+
+  td {
+    vertical-align: middle;
   }
 </style>
 
@@ -76,30 +81,36 @@ if (!isset($_SESSION['loggedin'])) {
   <div class="container-fluid mt-4">
     <div class="row">
       <div class="col-12 mb-3">
-        <h1>SOFIA Products</h1>
+
+        <div class="d-flex justify-content-between">
+          <h1>SOFIA Products</h1>
+          <div>
+            <button type="button" class="btn btn-dark px-5" data-bs-toggle="modal" data-bs-target="#addModal">Add Product</button>
+          </div>
+        </div>
       </div>
-      <div class="col-12">
+      <!-- <div class="col-12">
         <form action="mycart.php" method="POST">
           <div class="input-group mb-3">
             <input type="text" name="search" class="form-control" placeholder="Search Product Name" aria-label="Search Products" aria-describedby="button-addon2">
             <button class="btn btn-danger" style="width: 15vh;" type="submit" id="button-addon2">Search</button>
           </div>
         </form>
-      </div>
-      <div class="col-12 overflow-auto" style="height: 60vh; background-color: #f2f2f2;">
-        <table class="table table-striped" id="myTable">
-          <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+      </div> -->
+      <div class="col-12">
+        <table class="table table-striped bg-white" id="myTable">
+          <thead class="table-dark">
             <tr>
-              <th scope="col" style="text-align:center;vertical-align:middle;display:none;">Product ID</th>
-              <th scope="col" style="text-align:center;vertical-align:middle;display:none;">Product Name</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Image</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Description</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Price</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Ratings</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Category</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Release Date</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Stocks</th>
-              <th scope="col" style="text-align:center;vertical-align:middle">Action</th>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Ratings</th>
+              <th>Category</th>
+              <th>Release Date</th>
+              <th>Stocks</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -142,34 +153,30 @@ if (!isset($_SESSION['loggedin'])) {
 
               $counter += 1; ?>
               <tr>
-                <th scope="row" style="width: 30vh; text-align:center;vertical-align:middle;display:none;"><?php echo "$id" ?></th>
-                <td style="width: 40vh; text-align:center; vertical-align:middle;display:none;"><?php echo "$pname" ?></td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle">
-                  <img style="width: 20vh;" src="<?php echo "$imgpath" ?>">
-                </td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$desc" ?></td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$price" ?></td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$rate" ?></td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$category" ?></td>
-                <td style="width: 40vh; text-align:center; vertical-align:middle"><?php echo "$release" ?></td>
-                <td style="width: 40vh; text-align:center;vertical-align:middle"><button style="vertical-align:middle; width: 12vh; margin-top: 5px;" type="button" class="openupModal btn btn-success" onclick="stocks()" data-bs-toggle="modal" data-bs-target="#checkModal">ADD</button></td>
-                <td style="width: 40vh; text-align:center;vertical-align:middle">
+                <th><?php echo "$id" ?></th>
+                <td><img style="width: 15vh;" src="<?php echo "$imgpath" ?>"></td>
+                <td><?php echo "$pname" ?></td>
+                <td><?php echo "$desc" ?></td>
+                <td><?php echo "$price" ?></td>
+                <td><?php echo "$rate" ?></td>
+                <td><?php echo "$category" ?></td>
+                <td><?php echo "$release" ?></td>
+                <td><button type="button" class="openupModal btn btn-success" onclick="stocks()" data-bs-toggle="modal" data-bs-target="#checkModal">ADD</button></td>
+                <td>
                   <input type="hidden" value="<?php echo $small ?>" id="small<?php echo $id ?>">
                   <input type="hidden" value="<?php echo $medium ?>" id="medium<?php echo $id ?>">
                   <input type="hidden" value="<?php echo $large ?>" id="large<?php echo $id ?>">
-                  <button style="vertical-align:middle; width: 12vh; margin-top: 5px;" type="button" class="openupModal btn btn-secondary" onclick="updateProd()" data-bs-toggle="modal" data-bs-target="#updateModal">EDIT</button>
-                  <button style="vertical-align:middle; width: 12vh; margin-top: 5px;" type="button" class="openupModal btn btn-info" onclick="deleteProd()" data-bs-toggle="modal" data-bs-target="#deleteModal">ARCHIVE</button>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="openupModal btn btn-secondary" onclick="updateProd()" data-bs-toggle="modal" data-bs-target="#updateModal">EDIT</button>
+                    <button type="button" class="openupModal btn btn-danger" onclick="deleteProd()" data-bs-toggle="modal" data-bs-target="#deleteModal">ARCHIVE</button>
+                  </div>
                 </td>
               </tr>
             <?php } ?>
           </tbody>
         </table>
       </div>
-      <div class="d-flex flex-column-reverse">
-        <div class="align-self-end">
-          <button style="vertical-align:middle; margin-top: 10px; width: 30vh;" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addModal">Add Product</button>
-        </div>
-      </div>
+
     </div>
 
   </div>
@@ -184,7 +191,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="productname">Add Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -248,7 +255,7 @@ if (!isset($_SESSION['loggedin'])) {
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
       </div>
@@ -262,7 +269,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="productname">Add Stocks</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -291,7 +298,7 @@ if (!isset($_SESSION['loggedin'])) {
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-success">Add Stocks</button>
         </form>
       </div>
@@ -305,7 +312,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="del-name"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -313,7 +320,7 @@ if (!isset($_SESSION['loggedin'])) {
         Are you sure you want to archive this item?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <form action="executionFile/deleteproduct.php" method="POST">
           <input type="hidden" id="del-id" name="del-id" value="" />
           <button type="submit" class="btn btn-danger">Archive Product</button>
@@ -329,7 +336,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="productname">Edit Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -392,13 +399,23 @@ if (!isset($_SESSION['loggedin'])) {
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-warning">Edit Product</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#myTable').DataTable();
+  });
+</script>
 
 <script>
   $("#myTable").on('click', '.openupModal', function() {

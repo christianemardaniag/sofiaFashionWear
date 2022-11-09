@@ -113,7 +113,7 @@ if (!isset($_SESSION['loggedin'])) {
           <th scope="col">Product Name</th>
           <th scope="col">Quantity</th>
           <th scope="col">Total</th>
-          <th scope="col">Date</th>
+          <th scope="col">Transaction Date</th>
           <th scope="col">Order Status</th>
           <!-- <th scope="col">Action</th> -->
         </tr>
@@ -135,7 +135,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="com-name"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -143,7 +143,7 @@ if (!isset($_SESSION['loggedin'])) {
         Orders Complete?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <form action="executionFile/orderstat.php" method="POST">
           <input type="hidden" id="com-id" name="com-id" value="" />
           <input type="hidden" id="com-cusid" name="cusid" value="" />
@@ -162,7 +162,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="can-name"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -170,7 +170,7 @@ if (!isset($_SESSION['loggedin'])) {
         Do you really want to cancel this order?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <form action="executionFile/orderstat.php" method="POST">
           <input type="hidden" id="can-id" name="can-id" value="" />
           <input type="hidden" id="can-cusid" name="cusid" value="" />
@@ -248,7 +248,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <td>${val.productName}</td>
                 <td>${val.quantity}</td>
                 <td>${val.total}</td>
-                <td>${val.dateTime}</td>
+                <td>${val.transactionDate}</td>
                 <td class="${orderStatusColor}">${val.orderStatus}</td>
               </tr>
              `;
@@ -259,9 +259,7 @@ if (!isset($_SESSION['loggedin'])) {
           }
           $("#transactionContent").html(content);
           $('#myTable').DataTable({
-            order: [
-              [0, 'desc']
-            ]
+            "ordering": false
           });
           $("#myTable").removeClass("display compact");
           $("#myTable").addClass("display compact");

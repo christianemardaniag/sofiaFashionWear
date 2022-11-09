@@ -18,11 +18,11 @@ $email = $row["email_add"];
 
 if(isset($_POST['com-id'])){
     $id = $_POST['com-id'];
-    $queryUpdate = "UPDATE `order_data` SET `order_status` = '$status' WHERE `order_id` = $id"; //complete
+    $queryUpdate = "UPDATE `order_data` SET `order_status` = '$status', transaction_date=CURRENT_TIMESTAMP  WHERE `order_id` = $id"; //complete
 }
 else if(isset($_POST['can-id'])){
     $id = $_POST['can-id'];
-    $queryUpdate = "UPDATE `order_data` SET `order_status` = '$status' WHERE `order_id` = $id"; //cancel
+    $queryUpdate = "UPDATE `order_data` SET `order_status` = '$status', transaction_date=CURRENT_TIMESTAMP  WHERE `order_id` = $id"; //cancel
 }
 $sqlUpdate = mysqli_query($sqlcon,$queryUpdate);
 
