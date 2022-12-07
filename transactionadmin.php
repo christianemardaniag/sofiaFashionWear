@@ -188,7 +188,7 @@ if (!isset($_SESSION['loggedin'])) {
 </div>
 
 <!-- RECEIPT V2 -->
-<div class="modal bg-secondary py-5" tabindex="-1" role="dialog" id="receiptModal" data-bs-backdrop="static">
+<div class="modal bg-secondary py-5" tabindex="-1" role="dialog" id="receiptModal">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content rounded-4 shadow">
 			<div class="p-5 pb-2">
