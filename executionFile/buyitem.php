@@ -5,6 +5,7 @@
 
     $userquery = "";
     $orderno = $_POST['orderno'];
+    $dateTime = $_POST['dateTime'];
 
     if(isset($_SESSION["userid"])){$userquery = $_SESSION["userid"];}
     else if(isset($_COOKIE["userid"])){$userquery = $_COOKIE["userid"];}
@@ -20,8 +21,8 @@
         $price= $row["price"];  $qty = $row["qty"];
         $total = $row["total"]; $imgpath = $row["imgpath"]; $sizess = $row['size'];
 
-        $queryUpdate = "INSERT INTO `order_data`(`customer_id`, `product_id`, `prod_name`, `qty`, `total`, `order_no`, `order_status`,`rate`) 
-        VALUES ('$userquery','$id','$pname','$qty','$total','$orderno','PENDING','NOT')"; //insert product
+$queryUpdate = "INSERT INTO `order_data`(`customer_id`, `product_id`, `prod_name`, `qty`, `total`, `order_no`, `order_status`,`rate`, `date`, `transaction_date`) 
+        VALUES ('$userquery','$id','$pname','$qty','$total','$orderno','PENDING','NOT', '$dateTime', '$dateTime')"; //insert product
 
         $sqlUpdate = mysqli_query($sqlcon,$queryUpdate);
     }

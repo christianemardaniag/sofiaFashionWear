@@ -38,7 +38,8 @@ if ($row > 0) {
   <link rel="stylesheet" type="text/css" href="order.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
   <style>
-    th, td {
+    th,
+    td {
       text-align: center !important;
       vertical-align: middle;
     }
@@ -219,7 +220,7 @@ if ($row > 0) {
                   echo round((strtotime($exp) - strtotime($date)) / (60 * 60 * 24)) . " day(s) left"; ?>
                 </td>
                 <td style="width: 40vh; text-align:center;vertical-align:middle">
-                  <button style="vertical-align:middle; width: 125px; margin-top: 5px;" type="button" class="openupModal btn btn-warning" onclick="getQty()" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
+                  <button style="vertical-align:middle; width: 125px; margin-top: 5px;" type="button" class="openupModal btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
                   <a href="executionFile/removecart.php?id=<?php echo $id ?>&prodid=<?php echo $prodid ?>&size=<?php echo $sizess ?>&qty=<?php echo $qty ?>"><button style="vertical-align:middle; width: 125px; margin-top: 5px;" type="button" class="opendelModal btn btn-Danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Remove</button></a>
                 </td>
               </tr>
@@ -370,6 +371,7 @@ if ($row > 0) {
       <div class="modal-footer">
         <form action="executionFile/buyitem.php" method="POST">
           <input type="hidden" id="ordernos" name="orderno" value="">
+          <input type="hidden" id="dateTime" name="dateTime" value="">
           <button type="submit" class="btn btn-danger">Thank you!</button>
         </form>
       </div>
@@ -393,7 +395,7 @@ if ($row > 0) {
             <label for="price" class="col-form-label">Quantity:</label>
             <div class="input-group mb-3">
               <span class="input-group-text">QTY</span>
-              <input type="number" min="1" max="2" class="form-control" id="qty" name="qty" required>
+              <input type="number" min="1" max="100" class="form-control" id="qty" name="qty" required>
             </div>
           </div>
           <input type="hidden" value="" id="oldqty" name="oldqty">
@@ -419,6 +421,12 @@ if ($row > 0) {
   $(document).ready(function() {
     $('#myTable').DataTable();
   });
+
+  // $(".openupModal").click(function(e) {
+  //   e.preventDefault();
+  //   var qty = $(this).data("qty");
+
+  // });
 </script>
 
 <script>
@@ -447,6 +455,10 @@ if ($row > 0) {
     var orderno = Math.floor(Math.random() * 1000000) + 1;
     document.getElementById("ordernos").value = orderno;
     document.getElementById("orderno").innerHTML = "ORDER NO. ".concat(orderno);
-
+    var date = new Date();
+    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var date_time = current_date + " " + current_time;
+    document.getElementById("dateTime").value = date_time;
   }
 </script>

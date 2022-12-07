@@ -87,7 +87,7 @@ if (!isset($_SESSION['loggedin'])) {
       </div> -->
       <div class="col-12 overflow-auto">
         <table class="table table-striped bg-white" id="myTable">
-          <thead class="table-dark" >
+          <thead class="table-dark">
             <tr>
               <th scope="col" style="text-align:center;vertical-align:middle; display:none">Order ID</th>
               <th scope="col" style="text-align:center;vertical-align:middle">Transaction No</th>
@@ -207,6 +207,7 @@ if (!isset($_SESSION['loggedin'])) {
                           <input type="hidden" id="com-cusid" name="cusid" value="" />
                           <input type="hidden" id="can-oid" name="oid" value="" />
                           <input type="hidden" id="stats" name="stats" value="CLAIMED" />
+                          <input type="hidden" id="dateTime" name="dateTime" value="" />
                           <button type="submit" class="btn btn-success">Complete</button>
                         </form>
                       </div>
@@ -234,6 +235,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <input type="hidden" id="can-cusid" name="cusid" value="" />
                 <input type="hidden" id="can-oid" name="oid" value="" />
                 <input type="hidden" id="stats" name="stats" value="CANCELLED" />
+                <input type="hidden" id="dateTime" name="dateTime" value="" />
                 <button type="submit" class="btn btn-danger">Cancel Order</button>
               </form>
             </div>
@@ -270,5 +272,11 @@ if (!isset($_SESSION['loggedin'])) {
 
           document.getElementById("can-oid").value = ono;
           document.getElementById("com-oid").value = ono;
+
+          var date = new Date();
+          var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+          var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          var date_time = current_date + " " + current_time;
+          document.getElementById("dateTime").value = date_time;
         });
       </script>
