@@ -135,15 +135,17 @@ if ($row > 0) {
          height: 50px;
       }
    </style>
-   <div class="p-5 text-center text-bg-light mx-auto my-5 rounded-4 shadow" style="width: 650px;">
-      <h1 class="mt-3 mb-5 ">LEADERBOARDS</h1>
+   <div class="p-5 pt-2 text-center mx-auto my-5 rounded-4 shadow" style="width: 650px; background-color: white;">
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+      <lottie-player class="mx-auto" src="https://assets8.lottiefiles.com/packages/lf20_UZCdW2/04_trophy.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+      <h1 class="mb-3">LEADERBOARDS</h1>
       <table class="table table-striped table-light shadow-sm">
          <thead class="table-secondary">
             <th>Rank No.</th>
             <th>Name</th>
          </thead>
          <tbody class="table-group-divider">
-         <?php
+            <?php
             $query = "SELECT user_table.`ID` AS 'ID', user_table.`name` AS 'name', SUM(order_data.`qty`) AS 'total' FROM user_table INNER JOIN order_data ON user_table.`ID` = order_data.`customer_id` WHERE order_data.`order_status` = 'CLAIMED' AND order_data.`qty` >= 1 GROUP BY user_table.`name` ORDER BY SUM(order_data.`qty`) DESC LIMIT 20;";
             $sql = mysqli_query($sqlcon, $query);
             $counter = 0;
@@ -157,9 +159,9 @@ if ($row > 0) {
                   <td><?php echo $counter ?></td>
                   <td class="text-capitalize"><?php echo $name ?></td>
                </tr>
-               <?php
+            <?php
             }
-               ?>
+            ?>
          </tbody>
       </table>
    </div>
