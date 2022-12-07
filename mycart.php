@@ -304,7 +304,7 @@ while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
       <div class="p-5 pb-4 border-bottom-0">
         <div class="d-flex justify-content-between">
           <h6 class="text-secondary">Unofficial Receipt</h6>
-          <div class="text-muted" style="font-size: 12px;" id="dateTime">December 7, 2022 08:55 PM</div>
+          <div class="text-muted" style="font-size: 12px;" id="dateTimeDisp">December 7, 2022 08:55 PM</div>
         </div>
         <div class="text-center">
 
@@ -447,9 +447,14 @@ while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
     var orderno = Math.floor(Math.random() * 1000000) + 1;
     document.getElementById("ordernos").value = orderno;
     document.getElementById("orderno").innerHTML = "ORDER NO: ".concat(orderno);
+    var date = new Date();
+    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var date_time = current_date + " " + current_time;
+    document.getElementById("dateTime").value = date_time;
 
     $(document).ready(function() {
-      $("#dateTime").html(moment().format("LLL"));
+      $("#dateTimeDisp").html(moment().format("LLL"));
       $("#receiptModal").modal('show');
     });
   }
