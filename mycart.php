@@ -31,12 +31,12 @@ $sqlead = mysqli_query($sqlcon,$leader);
 $countlead = 0;
 $isLead = false;
 while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
+  $countlead++;
   if($rowlead['ID'] == $userquery){
     $isLead = true;
     setcookie("ranking", "true", time() + (10 * 365 * 24 * 60 * 60));
     break;
   }
-  $countlead++;
 }
 
 //end
@@ -141,7 +141,7 @@ while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
         <?php
         if ($isLead) {
           echo '<div class="alert alert-warning" role="alert">
-          <i class="bi bi-stars"></i> You are belong to our <b>Top 20 Leaderboards,</b> enjoy additional one week expiration of your reserved items!
+          <i class="bi bi-stars"></i> You are <b>Top '.$countlead.'</b> on Leaderboards, enjoy additional one week expiration of your reserved items!
         </div>';
         }
         ?>
