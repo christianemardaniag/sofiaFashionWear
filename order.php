@@ -166,7 +166,7 @@ if ($row > 0) {
         <form action="order.php" method="GET">
           <div class="input-group mb-5">
             <input type="text" style="height: 50px;" name="search" class="form-control" placeholder="Search Product Name" aria-label="Search Products" aria-describedby="button-addon2">
-            <button class="btn btn-secondary dropdown-toggle" style="width: 10vh;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" style="width: 10vh;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="bi bi-filter" style="font-size: 3.5vh;"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 2vh">
@@ -187,13 +187,13 @@ if ($row > 0) {
                 <input class="form-check-input" type="radio" name="category" value="Bottoms">
                 <label class="form-check-label" for="category">
                   Bottoms
-                </label>
+            <!--    </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="category" value="Footwear">
                 <label class="form-check-label" for="category">
                   Footwear
-                </label>
+                </label> -->
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="category" value="Dresses">
@@ -375,7 +375,7 @@ if ($row > 0) {
               </label>
             </div>
             <p class="mt-4">Don't have an account? <a href="register.php">Signup here</a>.</p>
-            <p class="mt-4">Are you an Admin? <a href="adminlogin.php">Click here</a>.</p>
+           <!-- <p class="mt-4">Are you an Admin? <a href="adminlogin.php">Click here</a>.</p> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>

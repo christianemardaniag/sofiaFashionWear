@@ -287,13 +287,13 @@ if (!isset($_SESSION['loggedin'])) {
             <label for="small" class="col-form-label">Stocks Per Size:</label>
             <div class="input-group mb-3">
               <span class="input-group-text">S</span>
-              <input type="number" min="0" class="form-control" id="check-small" name="check-small" required>
+              <input type="number" min="50" class="form-control" id="check-small" name="check-small" required>
 
               <span class="input-group-text">M</span>
-              <input type="number" min="0" class="form-control" id="check-medium" name="check-medium" required>
+              <input type="number" min="50" class="form-control" id="check-medium" name="check-medium" required>
 
               <span class="input-group-text">L</span>
-              <input type="number" min="0" class="form-control" id="check-large" name="check-large" required>
+              <input type="number" min="50" class="form-control" id="check-large" name="check-large" required>
             </div>
           </div>
       </div>
@@ -360,7 +360,7 @@ if (!isset($_SESSION['loggedin'])) {
           </div>
           <div class="form-group">
             <label for="product-name" class="col-form-label">Product Name:</label>
-            <input type="text" class="form-control" id="up-name" name="up-name" required>
+            <input type="text" class="form-control" id="up-name" name="up-name" readonly>
           </div>
           <div class="form-group">
             <label for="category" class="col-form-label">Description:</label>
@@ -378,7 +378,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" onclick="category('Tops')">Tops</a>
                   <a class="dropdown-item" onclick="category('Bottoms')">Bottoms</a>
-                  <a class="dropdown-item" onclick="category('Footwear')">Footwear</a>
+                <!--  <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
                   <a class="dropdown-item" onclick="category('Dresses')">Dresses</a>
                   <a class="dropdown-item" onclick="category('Accessories')">Accessories</a>
                 </div>
