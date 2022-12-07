@@ -21,6 +21,7 @@ if (!isset($_SESSION['loggedin'])) {
 	th,
 	td {
 		text-align: center !important;
+		cursor: pointer;
 	}
 </style>
 <!DOCTYPE html>
@@ -106,7 +107,7 @@ if (!isset($_SESSION['loggedin'])) {
 			</div>
 		</div>
 
-		<table class="table table-striped table-sm display compact" id="myTable" style="background-color: #f2f2f2;">
+		<table class="table table-striped table-hover table-sm display compact" id="myTable" style="background-color: #f2f2f2;">
 			<thead class="table-dark">
 				<tr>
 					<th scope="col">ID</th>
@@ -186,6 +187,61 @@ if (!isset($_SESSION['loggedin'])) {
 	</div>
 </div>
 
+<!-- RECEIPT V2 -->
+<div class="modal bg-secondary py-5" tabindex="-1" role="dialog" id="receiptModal" data-bs-backdrop="static">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-4 shadow">
+			<div class="p-5 pb-2">
+				<div class="d-flex justify-content-between">
+					<!-- <div class="text-muted h6" id="dateTimeDisp">December 7, 2022 08:55 PM</div> -->
+				</div>
+				<div class="text-center">
+					<h6 class="text-secondary">Unofficial Receipt</h6>
+					<h1 class="fw-bold mb-0 fs-2">Sofia Fashionwear Store</h1>
+					<p class="mb-0 text-muted small">RRV7, F9J, Lucero St. Malolos, Bulacan</p>
+					<p class="mb-0 text-muted small">+639 050 446 098</p>
+				</div>
+				<hr>
+			</div>
+
+			<div class="modal-body pb-2 pt-0">
+				<div class="d-flex justify-content-between mx-3">
+					<h6 class="text-uppercase">SOLD TO: Banawa, Ma Nina Joy</h6>
+					<h6 id="orderno">ORDER NO: 123041</h6>
+				</div>
+				<table class="table table-border">
+					<thead>
+						<tr>
+							<th>Item Name</th>
+							<th>Qty</th>
+							<th>Status</th>
+							<th>Date</th>
+							<th>Amount</th>
+						</tr>
+					</thead>
+					<tbody id="receiptContent">
+
+					</tbody>
+					<tr class="table-secondary">
+						<td colspan="4" class="fw-bold text-end">Total:</td>
+						<td class="fw-bold h5">₱ <span id="totapPrice"></span></td>
+					</tr>
+				</table>
+
+				<div class="mt-3 text-center text-muted" style="font-size: 12px;">
+					<div><i>This serves as an unofficial receipt of Sofia Fashionwear Store.</i></div>
+					<i>For questions concerning to this receipt, please contact</i>
+					<div>Ms. Mary May Ramos | +639 050 446 098</div>
+					<p>Thank you and come again!</p>
+				</div>
+			</div>
+			<div class="modal-footer d-print-none">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -245,7 +301,7 @@ if (!isset($_SESSION['loggedin'])) {
 						}
 
 						content += `
-							<tr>
+							<tr class="transaction" data-id="${val.transactionNo}">
 								<td>${val.orderID}</td>
 								<td>${val.transactionNo}</td>
 								<td class="text-capitalize">${val.customerName}</td>
@@ -267,6 +323,31 @@ if (!isset($_SESSION['loggedin'])) {
 					});
 					$("#myTable").removeClass("display compact");
 					$("#myTable").addClass("display compact");
+
+					$(".transaction").click(function(e) {
+						e.preventDefault();
+						var id = $(this).data("id");
+						var transFilter = filtered.filter(function(trans) {
+							return trans.transactionNo == id;
+						});
+						var content = ``;
+						var totalPrice = 0;
+						$.each(transFilter, function(indexInArray, val) {
+							totalPrice += parseFloat(val.total);
+							content += `
+							<tr>
+								<td class='text-capitalize'>${val.productName}</td>
+								<td>${val.quantity}</td>
+								<td class='text-capitalize'>${val.orderStatus}</td>
+								<td>${val.transactionDate}</td>
+								<td>₱ ${val.total}</td>
+							</tr>
+							`;
+						});
+						$("#receiptContent").html(content);
+						$("#totapPrice").html(totalPrice.toFixed(2));
+						$("#receiptModal").modal("show")
+					});
 				},
 				error: function(response) {
 					console.error(response);
@@ -306,7 +387,7 @@ if (!isset($_SESSION['loggedin'])) {
 				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 			}
 		}, cb);
-		
+
 		cb(start, end);
 		let searchParams = new URLSearchParams(window.location.search);
 		if (searchParams.has('q')) {
