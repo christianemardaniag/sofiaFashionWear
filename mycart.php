@@ -283,21 +283,33 @@ if ($row > 0) {
   </div>
 </div>
 
-<!-- Modal Receipt-->
-<div class="modal fade" id="receiptModal" data-backdrop='static' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productname">Your Receipt</h5>
+
+<!-- RECEIPT V2 -->
+<div class="modal bg-secondary py-5" tabindex="-1" role="dialog" id="receiptModal" data-bs-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="p-5 pb-4 border-bottom-0">
+        <div class="d-flex justify-content-between">
+          <h6 class="text-secondary">Unofficial Receipt</h6>
+          <div class="text-muted" style="font-size: 12px;" id="dateTime">December 7, 2022 08:55 PM</div>
+        </div>
+        <div class="text-center">
+
+          <h1 class="fw-bold mb-0 fs-2">Sofia Fashionwear Store</h1>
+          <p class="mb-0 text-muted small">RRV7, F9J, Lucero St. Malolos, Bulacan</p>
+          <p class="mb-0 text-muted small">+639 050 446 098</p>
+        </div>
       </div>
-      <div class="modal-body">
-        <table class="table">
+
+      <div class="modal-body p5 pb-2 pt-0">
+        <h6 id="orderno" class="text-center">ORDER NO: 123041</h6>
+        <table class="table table-border">
           <thead>
             <tr>
-              <th scope="col">Product Name</th>
-              <th scope="col">Size</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total</th>
+              <th>Item Name</th>
+              <th>Size</th>
+              <th>Qty</th>
+              <th>Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -305,74 +317,41 @@ if ($row > 0) {
             $query = "SELECT cart.size as size, product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total' 
                     FROM product_data
                     INNER JOIN cart ON product_data.product_id = cart.product_id WHERE user_id = '$userquery'";
-
             $sql = mysqli_query($sqlcon, $query);
             while ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
               $prnames = $row["prodname"];
               $size = $row['size'];
               $pqtys = $row["qty"];
               $total = $row["total"];
-              echo "<tr><th scope='row'>$prnames</th>
-                        <td>$size</td>
-                        <td>$pqtys</td>
-                        <td>₱$total</td></tr>";
+              echo "<tr>
+                <td class='text-capitalize' style='font-size: 12px;'>$prnames</td>
+                <td class='text-capitalize'>$size</td>
+                <td>$pqtys</td>
+                <td>₱ $total</td>
+              </tr>";
             }
             ?>
             <tr>
-            <tr>
-              <th scope='row'></th>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr class="table-secondary">
+              <td colspan="3" class="fw-bold text-end">Total:</td>
+              <td class="fw-bold h5">₱ <?php echo $num ?></td>
             </tr>
-            <tr>
-            <tr>
-              <th scope='row'>Total Price</th>
-              <td></td>
-              <td></td>
-              <td class="fw-bold">₱<?php echo $num ?></td>
-            </tr>
-            <tr>
-            <tr>
-              <th scope='row'></th>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php
-            $query = "SELECT * FROM user_table WHERE id='$userquery'";
-            $sql = mysqli_query($sqlcon, $query);
-            if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
-              $user = $row['username'];
-              $phoneno = $row['phoneno'];
-
-              echo "<tr>
-                              <tr><th colspan='2'>Username</th>
-                              <td colspan='2'>$user</td>
-                          </tr>";
-              echo "<tr>
-                          <tr><th colspan='2'>Phone No.</th>
-                          <td colspan='2'>$phoneno</td>
-                      </tr>";
-              echo "<tr>
-                          <tr><th colspan='2'>Date and Time</th>
-                          <td colspan='2'>" . date('M d, Y h:i A') . "</td>
-                      </tr>";
-            }
-            ?>
-
           </tbody>
         </table>
-        <div class="text-center">
 
-          <p id="orderno" style="font-style: italic;" class="mt-3"></p>
+        <div class="mt-3 text-center text-muted" style="font-size: 12px;">
+          <div><i>This serves as an unofficial receipt of Sofia Fashionwear Store.</i></div>
+          <i>For questions concerning to this receipt, please contact</i>
+          <div>Ms. Mary May Ramos | +639 050 446 098</div>
+          <p>Thank you and come again!</p>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer d-print-none">
+        <button type="button" class="btn btn-secondary" onclick="window.print()">Print</button>
         <form action="executionFile/buyitem.php" method="POST">
           <input type="hidden" id="ordernos" name="orderno" value="">
           <input type="hidden" id="dateTime" name="dateTime" value="">
-          <button type="submit" class="btn btn-danger">Thank you!</button>
+          <button type="submit" class="btn btn-dark px-3">Proceed</button>
         </form>
       </div>
     </div>
@@ -454,11 +433,11 @@ if ($row > 0) {
     //GENERATE ORDER NO.
     var orderno = Math.floor(Math.random() * 1000000) + 1;
     document.getElementById("ordernos").value = orderno;
-    document.getElementById("orderno").innerHTML = "ORDER NO. ".concat(orderno);
-    var date = new Date();
-    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    var date_time = current_date + " " + current_time;
-    document.getElementById("dateTime").value = date_time;
+    document.getElementById("orderno").innerHTML = "ORDER NO: ".concat(orderno);
+
+    $(document).ready(function() {
+      $("#dateTime").html(moment().format("LLL"));
+      $("#receiptModal").modal('show');
+    });
   }
 </script>
