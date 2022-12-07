@@ -14,7 +14,6 @@ if (isset($_SESSION["userid"])) {
 } else if (isset($_COOKIE["userid"])) {
   $userquery = $_COOKIE["userid"];
 }
-
 //for cart count
 $query = "SELECT count(cart_id) as userCart FROM cart WHERE `user_id` = '$userquery'";
 $sql = mysqli_query($sqlcon, $query);
@@ -24,6 +23,20 @@ if ($row > 0) {
   $cartCount = $row['userCart'];
 } else {
   $cartCount = 0;
+}
+
+$leader = "SELECT `user_table`.`ID` AS 'ID', `user_table`.`name` AS 'name', SUM(`order_data`.`qty`) AS 'total' FROM `user_table` INNER JOIN `order_data` ON `user_table`.`ID` = `order_data`.`customer_id` WHERE `order_data`.`order_status` = 'CLAIMED' GROUP BY `user_table`.`name` ORDER BY SUM(`order_data`.`qty`) DESC LIMIT 20";
+$sqlead = mysqli_query($sqlcon,$leader);
+
+$countlead = 0;
+$isLead = false;
+while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
+  if($rowlead['ID'] == $userquery){
+    $isLead = true;
+    setcookie("ranking", "true", time() + (10 * 365 * 24 * 60 * 60));
+    break;
+  }
+  $countlead++;
 }
 
 //end
@@ -78,13 +91,13 @@ if ($row > 0) {
         <ul class="navbar-nav mb-2 mb-lg-0">
           <div class="input-group">
             <!-- LEADERBOARD -->
-            <li class="nav-item" title="Leaderboards of active users">
+            <!-- <li class="nav-item" title="Leaderboards of active users">
               <a class="nav-link mx-2 me-2" href="leaderboard.php" role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
                   <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
                 </svg>
               </a>
-            </li>
+            </li> -->
 
             <!-- CART -->
             <li class="nav-item" title="Cart">
@@ -126,7 +139,7 @@ if ($row > 0) {
       </div> -->
       <div>
         <?php
-        if (isset($_COOKIE['ranking'])) {
+        if ($isLead) {
           echo '<div class="alert alert-warning" role="alert">
           <i class="bi bi-stars"></i> You are belong to our <b>Top 20 Leaderboards,</b> enjoy additional one week expiration of your reserved items!
         </div>';

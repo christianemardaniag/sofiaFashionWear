@@ -74,13 +74,13 @@ if ($row > 0) {
         <ul class="navbar-nav mb-2 mb-lg-0">
           <div class="input-group">
             <!-- LEADERBOARD -->
-            <li class="nav-item" title="Leaderboards of active users">
+            <!-- <li class="nav-item" title="Leaderboards of active users">
               <a class="nav-link mx-2 me-2" href="leaderboard.php" role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
                   <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
                 </svg>
               </a>
-            </li>
+            </li> -->
 
             <!-- CART -->
             <li class="nav-item" title="Cart">
