@@ -9,10 +9,9 @@
     $productid = $_POST['prodidz'];
     $oldqty = $_POST['oldqty'];
 
-    $total = $qty * $price;
-    $queryUpdate = "UPDATE `cart` SET 
-    `qty`='$qty', `total` = '$total' WHERE `cart_id` = $id"; //update product
-
+    $total = (int)$qty * (int)$price;
+    $queryUpdate = "UPDATE `cart` SET `qty`='$qty', `total` = '$total' WHERE `cart_id` = $id"; //update product
+echo $queryUpdate;
     $sqlUpdate = mysqli_query($sqlcon,$queryUpdate); 
 
 

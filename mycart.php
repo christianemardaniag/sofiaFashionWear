@@ -432,10 +432,10 @@ if ($row > 0) {
 <script>
   $("#myTable").on('click', '.openupModal', function() {
     var currentRow = $(this).closest("tr");
-    var id = currentRow.find("th:eq(0)").text();
-    var size = currentRow.find("td:eq(2)").text();
-    var price = currentRow.find("td:eq(3)").text();
-    var qty = currentRow.find("td:eq(4)").text();
+    var id = currentRow.find("td:eq(0)").text();
+    var size = currentRow.find("td:eq(3)").text();
+    var price = currentRow.find("td:eq(4)").text();
+    var qty = currentRow.find("td:eq(5)").text();
     var max = document.getElementById("size" + id).value;
     var proid = document.getElementById("prodid" + id).value;
 

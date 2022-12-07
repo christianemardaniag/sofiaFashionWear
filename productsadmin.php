@@ -227,13 +227,13 @@ if (!isset($_SESSION['loggedin'])) {
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="Category" name="add-cat" id="add-cat" aria-label="Username" aria-describedby="basic-addon1" readonly required>
               <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="bi bi-menu-button-wide-fill"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" onclick="category('Tops')">Tops</a>
                   <a class="dropdown-item" onclick="category('Bottoms')">Bottoms</a>
-                  <a class="dropdown-item" onclick="category('Footwear')">Footwear</a>
+               <!--   <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
                   <a class="dropdown-item" onclick="category('Dresses')">Dresses</a>
                   <a class="dropdown-item" onclick="category('Accessories')">Accessories</a>
                 </div>
@@ -372,7 +372,7 @@ if (!isset($_SESSION['loggedin'])) {
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="Category" name="up-cat" id="up-cat" aria-label="Username" aria-describedby="basic-addon1" readonly required>
               <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="bi bi-menu-button-wide-fill"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
