@@ -8,17 +8,7 @@ if (!isset($_SESSION['loggedin'])) {
 
 
 //sales
-$query = "SELECT SUM(total) as total FROM order_data WHERE order_status = 'CLAIMED'";
-$sql = mysqli_query($sqlcon, $query);
 
-$sales = 0;
-if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
-   $sales = $row['total'];
-
-   if ($sales == "") {
-      $sales = "0.00";
-   }
-}
 
 //users
 $query = "SELECT COUNT(id) as user FROM user_table";
@@ -90,6 +80,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
          background: linear-gradient(7deg, rgba(180, 226, 233, 1) 0%, rgba(217, 243, 247, 1) 60%);
       }
    </style>
+   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <body>
@@ -153,7 +144,11 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                                  <i class="bi bi-cash-stack" style="font-size: 55px; color: white"></i>
                               </div>
                               <div class="col-9">
-                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">₱ <?php echo $sales ?></h1>
+                                 <div id="reportrange" style="background: #1F487E; cursor: pointer; padding: 2px 5px; border: 1px solid #ccc; width: auto; border-radius:4px;">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down"></i>
+                                 </div>
+                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">₱ <span id="totalSales"></span></h1>
                                  <p class="card-text" style="font-size: 20px">Total Sales</p>
                               </div>
                            </div>
@@ -171,7 +166,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                                  <i class="bi bi-people-fill" style="font-size: 55px; color: white"></i>
                               </div>
                               <div class="col-9">
-                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px"><?php echo $users ?></h1>
+                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">20</h1>
                                  <p class="card-text" style="font-size: 20px">Top 20 Miners</p>
                               </div>
                            </div>
@@ -259,5 +254,88 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
       </div>
    </div>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+   $(document).ready(function() {
+      var data = {};
+      $.ajax({
+         type: "POST",
+         url: "process/dashboard.php",
+         data: {
+            GET_DASHBOARD_DATA: true
+         },
+         dataType: "JSON",
+         success: function(response) {
+            data = response;
+            var trans = response.map(function(date) {
+               var date = new Date(date.transaction_date);
+               return moment(date);
+            });
+            var start = moment.min(trans);
+            var end = moment.max(trans);
+            cb(start, end);
+         },
+         error: function(response) {
+            console.error(response);
+         }
+      });
+
+      function displayDashboard(start, end) {
+         var range = $("#reportrange span").html();
+         var filtered = data.filter(function(sales) {
+            let start = range.split(' - ')[0];
+            let end = range.split(' - ')[1];
+            return dateCheck(start, end, sales.transaction_date) && sales.status == "CLAIMED";
+         })
+         var sales = 0;
+         $.each(filtered, function(indexInArray, trans) {
+            sales += parseFloat(trans.total);
+         });
+         $("#totalSales").html(parseFloat(sales).toFixed(2));
+      }
+
+      function dateCheck(from, to, check) {
+         var fDate, lDate, cDate;
+         fDate = Date.parse(from);
+         lDate = Date.parse(to);
+         cDate = Date.parse(check);
+         if ((cDate <= lDate && cDate >= fDate)) {
+            return true;
+         }
+         return false;
+      }
+
+      $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+         let range = $('#reportrange span').html();
+         // displayTransaction(range, true);
+      });
+
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end, response) {
+         $('#reportrange span').html(start.format('L') + ' - ' + end.format('L'));
+         let range = $('#reportrange span').html();
+         displayDashboard(start, end, response);
+      }
+
+      $('#reportrange').daterangepicker({
+         startDate: start,
+         endDate: end,
+         ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+         }
+      }, cb);
+
+   });
+</script>
 
 </html>

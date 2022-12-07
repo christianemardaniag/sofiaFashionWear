@@ -233,7 +233,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" onclick="category('Tops')">Tops</a>
                   <a class="dropdown-item" onclick="category('Bottoms')">Bottoms</a>
-               <!--   <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
+                  <!--   <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
                   <a class="dropdown-item" onclick="category('Dresses')">Dresses</a>
                   <a class="dropdown-item" onclick="category('Accessories')">Accessories</a>
                 </div>
@@ -263,7 +263,7 @@ if (!isset($_SESSION['loggedin'])) {
   </div>
 </div>
 
-<!-- Modal Check-->
+<!-- Modal Add Stock-->
 <div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -275,6 +275,7 @@ if (!isset($_SESSION['loggedin'])) {
       </div>
       <div class="modal-body">
         <form action="executionFile/upstock.php" method="POST" enctype='multipart/form-data'>
+          <input type="hidden" id="dateTime" name="dateTime" value="" />
           <div class="form-group">
             <label for="product-id" class="col-form-label">Product ID:</label>
             <input type="text" class="form-control" id="check-id" name="check-id" readonly>
@@ -378,7 +379,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" onclick="category('Tops')">Tops</a>
                   <a class="dropdown-item" onclick="category('Bottoms')">Bottoms</a>
-                <!--  <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
+                  <!--  <a class="dropdown-item" onclick="category('Footwear')">Footwear</a> -->
                   <a class="dropdown-item" onclick="category('Dresses')">Dresses</a>
                   <a class="dropdown-item" onclick="category('Accessories')">Accessories</a>
                 </div>
@@ -421,7 +422,7 @@ if (!isset($_SESSION['loggedin'])) {
   $("#myTable").on('click', '.openupModal', function() {
     var currentRow = $(this).closest("tr");
     var id = currentRow.find("th:eq(0)").text();
-    var name = currentRow.find("td:eq(0)").text();
+    var name = currentRow.find("td:eq(1)").text();
     var desc = currentRow.find("td:eq(2)").text();
     var price = currentRow.find("td:eq(3)").text();
     var category = currentRow.find("td:eq(5)").text();
@@ -438,8 +439,11 @@ if (!isset($_SESSION['loggedin'])) {
     document.getElementById("check-name").value = name;
 
     document.getElementById("check-small").value = small;
+    document.getElementById("check-small").min = small;
     document.getElementById("check-medium").value = medium;
+    document.getElementById("check-medium").min = medium;
     document.getElementById("check-large").value = large;
+    document.getElementById("check-large").min = large;
 
     //FOR DELETE
     document.getElementById("del-id").value = id;
@@ -452,6 +456,12 @@ if (!isset($_SESSION['loggedin'])) {
     document.getElementById("up-price").value = price;
     document.getElementById("up-cat").value = category;
     document.getElementById("up-date").value = release;
+
+    var date = new Date();
+    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    // var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    // var date_time = current_date + " " + current_time;
+    document.getElementById("dateTime").value = current_date;
 
   });
 
