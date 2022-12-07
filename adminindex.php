@@ -149,7 +149,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                                     <span></span> <i class="fa fa-caret-down"></i>
                                  </div>
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">₱ <span id="totalSales"></span></h1>
-                                 <p class="card-text" style="font-size: 20px">Total Sales</p>
+                                 <a class="card-text text-decoration-none text-white" style="font-size: 20px" href="transactionadmin.php">Total Sales</a>
                               </div>
                            </div>
                         </div>
@@ -167,7 +167,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                               </div>
                               <div class="col-9">
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">20</h1>
-                                 <p class="card-text" style="font-size: 20px">Top 20 Miners</p>
+                                 <a class="card-text text-decoration-none text-white stretched-link" style="font-size: 20px" href="leaderboardAdmin.php">Top 20 Miners</a>
                               </div>
                            </div>
                         </div>
@@ -185,7 +185,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                               </div>
                               <div class="col-9">
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px"><?php echo $products ?></h1>
-                                 <p class="card-text" style="font-size: 20px">Total Products</p>
+                                 <a class="card-text text-decoration-none text-white stretched-link" style="font-size: 20px" href="productsadmin.php">Total Products</a>
                               </div>
                            </div>
                         </div>
@@ -203,7 +203,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                               </div>
                               <div class="col-9">
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px"><?php echo $pending ?></h1>
-                                 <p class="card-text" style="font-size: 20px">Total Unclaimed</p>
+                                 <a class="card-text text-decoration-none text-white stretched-link" style="font-size: 20px" href="ordersAdmin.php">Total Unclaimed</a>
                               </div>
                            </div>
                         </div>
@@ -221,7 +221,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                               </div>
                               <div class="col-9">
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px"><?php echo $delivered ?></h1>
-                                 <p class="card-text" style="font-size: 20px">Total Claimed</p>
+                                 <a class="card-text text-decoration-none text-white stretched-link" style="font-size: 20px" href="transactionadmin.php?q=CLAIMED">Total Claimed</a>
                               </div>
                            </div>
                         </div>
@@ -239,7 +239,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                               </div>
                               <div class="col-9">
                                  <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px"><?php echo $cancelled ?></h1>
-                                 <p class="card-text" style="font-size: 20px;">Total Cancelled</p>
+                                 <a class="card-text text-decoration-none text-white stretched-link" style="font-size: 20px" href="transactionadmin.php?q=CANCELLED">Total Cancelled</a>
                               </div>
                            </div>
                         </div>
