@@ -176,18 +176,12 @@ while($rowlead = mysqli_fetch_array($sqlead, MYSQLI_ASSOC)){
               $search = $_POST['search'];
 
               if ($search == "") {
-                $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size,  product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' 
-                        FROM product_data
-                        INNER JOIN cart ON product_data.product_id = cart.product_id WHERE user_id = '$customerid'";
+                $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size,  product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' FROM product_data INNER JOIN cart ON product_data.product_id = cart.product_id WHERE user_id = '$customerid'";
               } else {
-                $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size,  product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' 
-                        FROM product_data
-                        INNER JOIN cart ON product_data.product_id = cart.product_id WHERE `product_name` LIKE '%$search%' AND user_id = '$customerid'";
+                $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size,  product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' FROM product_data INNER JOIN cart ON product_data.product_id = cart.product_id WHERE `product_name` LIKE '%$search%' AND user_id = '$customerid'";
               }
             } else {
-              $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size, product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' 
-                    FROM product_data
-                    INNER JOIN cart ON product_data.product_id = cart.product_id WHERE user_id = '$customerid'";
+              $query = "SELECT cart.cart_id as 'cartid', cart.expiration as 'expiry', cart.product_id as 'prodid', product_data.price as 'price', product_data.small as 'small', product_data.medium as 'medium', product_data.large as 'large', cart.size as size, product_data.product_name as 'prodname', cart.qty as 'qty', cart.total as 'total', product_data.image_path as 'imgpath' FROM product_data INNER JOIN cart ON product_data.product_id = cart.product_id WHERE user_id = '$customerid'";
             }
 
             $sql = mysqli_query($sqlcon, $query);

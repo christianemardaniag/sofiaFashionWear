@@ -206,8 +206,8 @@ if (!isset($_SESSION['loggedin'])) {
 
 			<div class="modal-body pb-2 pt-0">
 				<div class="d-flex justify-content-between mx-3">
-					<h6 class="text-uppercase">SOLD TO: Banawa, Ma Nina Joy</h6>
-					<h6 id="orderno">ORDER NO: 123041</h6>
+					<h6 class="text-uppercase">SOLD TO: <span id="soldTo">Banawa, Ma Nina Joy</span></h6>
+					<h6>ORDER NO: <span id="orderNo">123041</span></h6>
 				</div>
 				<table class="table table-border">
 					<thead>
@@ -224,7 +224,7 @@ if (!isset($_SESSION['loggedin'])) {
 					</tbody>
 					<tr class="table-secondary">
 						<td colspan="4" class="fw-bold text-end">Total:</td>
-						<td class="fw-bold h5">₱ <span id="totapPrice"></span></td>
+						<td class="fw-bold h5">₱ <span id="totalPrice"></span></td>
 					</tr>
 				</table>
 
@@ -333,6 +333,8 @@ if (!isset($_SESSION['loggedin'])) {
 						var content = ``;
 						var totalPrice = 0;
 						$.each(transFilter, function(indexInArray, val) {
+							$("#soldTo").html(val.customerName);
+							$("#orderNo").html(val.transactionNo);
 							totalPrice += parseFloat(val.total);
 							content += `
 							<tr>
@@ -345,7 +347,7 @@ if (!isset($_SESSION['loggedin'])) {
 							`;
 						});
 						$("#receiptContent").html(content);
-						$("#totapPrice").html(totalPrice.toFixed(2));
+						$("#totalPrice").html(totalPrice.toFixed(2));
 						$("#receiptModal").modal("show")
 					});
 				},
