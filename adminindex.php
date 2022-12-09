@@ -148,7 +148,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
                                     <i class="fa fa-calendar"></i>&nbsp;
                                     <span></span> <i class="fa fa-caret-down"></i>
                                  </div>
-                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 45px">₱ <span id="totalSales"></span></h1>
+                                 <h1 class="card-title fw-bold" style="color: #faf7f7; font-size: 35px">₱ <span id="totalSales"></span></h1>
                                  <a class="card-text text-decoration-none text-white" style="font-size: 20px" href="transactionadmin.php">Total Sales</a>
                               </div>
                            </div>
@@ -270,6 +270,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
          dataType: "JSON",
          success: function(response) {
             data = response;
+            console.log(data);
             var trans = response.map(function(date) {
                var date = new Date(date.transaction_date);
                return moment(date);
@@ -288,7 +289,7 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
          var filtered = data.filter(function(sales) {
             let start = range.split(' - ')[0];
             let end = range.split(' - ')[1];
-            return dateCheck(start, end, sales.transaction_date) && sales.status == "CLAIMED";
+            return dateCheck(start, end, moment(sales.transaction_date).format("L")) && sales.status == "CLAIMED";
          })
          var sales = 0;
          $.each(filtered, function(indexInArray, trans) {
@@ -298,14 +299,10 @@ if ($row = mysqli_fetch_array($sql, MYSQLI_ASSOC)) {
       }
 
       function dateCheck(from, to, check) {
-         var fDate, lDate, cDate;
-         fDate = Date.parse(from);
-         lDate = Date.parse(to);
-         cDate = Date.parse(check);
-         if ((cDate <= lDate && cDate >= fDate)) {
-            return true;
-         }
-         return false;
+         var x = moment(check, "MM/DD/YYYY");
+         var a = moment(from, "MM/DD/YYYY");
+         var b = moment(to, "MM/DD/YYYY");
+         return x.isBetween(a, b) || x.isSame(a) || x.isSame(b);
       }
 
       $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
