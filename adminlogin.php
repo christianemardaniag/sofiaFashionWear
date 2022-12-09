@@ -64,11 +64,11 @@ if (isset($_POST['username'])) {
 
         <form action="adminlogin.php" method="POST">
             <div class="form-group">
-                <label>Username</label>
+             <!--   <label>Username</label> -->
                 <input type="text" name="username" placeholder="Username" class="form-control" value="" required>
             </div>
             <div class="form-group">
-                <label>Password</label>
+            <!--    <label>Password</label> -->
                 <input type="password" name="password" placeholder="Password" class="form-control" required>
                 <button type="button" class="btn btn-link text-decoration-none p-0" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
                 Forgot Password?
