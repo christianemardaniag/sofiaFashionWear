@@ -128,6 +128,10 @@ if (!isset($_SESSION['loggedin'])) {
 
 
 	</div>
+
+	<div class="container mb-5 mt-3 p-3 text-center shadow rounded-2 text-bg-light h5">
+		Total <span id="labelReport"></span> from <span id="dateRangeReport"></span> is ₱ <span id="totalSalesReport"></span>
+	</div>
 	<h6 class="d-none d-print-block text-center text-secondary">PRINTED BY ADMIN</h6>
 </body>
 
@@ -253,6 +257,7 @@ if (!isset($_SESSION['loggedin'])) {
 		$("#orderStatus").change(function(e) {
 			e.preventDefault();
 			let status = $(this).val();
+			$("#labelReport").html((status == "All"));
 			$("#printStatus").html(status);
 			displayTransaction(status);
 		});
@@ -286,14 +291,17 @@ if (!isset($_SESSION['loggedin'])) {
 							}
 						}
 					});
-
+					var totalClaimedReport = 0;
+					var totalCancelledReport = 0;
 					$.each(filtered, function(indexInArray, val) {
 						let orderStatusColor = "";
 						switch (val.orderStatus) {
 							case "CLAIMED":
+								totalClaimedReport += parseFloat(val.total);
 								orderStatusColor = "text-success";
 								break;
 							case "CANCELLED":
+								totalCancelledReport += parseFloat(val.total);
 								orderStatusColor = "text-danger";
 								break;
 							default:
@@ -313,6 +321,14 @@ if (!isset($_SESSION['loggedin'])) {
 							</tr>
 							`;
 					});
+
+					if($("#orderStatus").val() == "CANCELLED") {
+						$("#labelReport").html("Cancelled");
+						$("#totalSalesReport").html(addCommas(totalCancelledReport.toFixed(2)));
+					}else {
+						$("#labelReport").html("Claimed");
+						$("#totalSalesReport").html(addCommas(totalClaimedReport.toFixed(2)));
+					}
 
 					if ($.fn.DataTable.isDataTable("#myTable")) {
 						$('#myTable').DataTable().clear().destroy();
@@ -374,6 +390,7 @@ if (!isset($_SESSION['loggedin'])) {
 		function cb(start, end) {
 			$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 			let range = $('#reportrange span').html();
+			$("#dateRangeReport").html(range);
 			displayTransaction(range, true);
 		}
 
@@ -397,6 +414,18 @@ if (!isset($_SESSION['loggedin'])) {
 			$("#orderStatus").val(status);
 			$("#printStatus").html(status);
 			displayTransaction(status);
+		}
+
+		function addCommas(nStr) {
+			nStr += '';
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+			}
+			return x1 + x2;
 		}
 	});
 	$("#myTable").on('click', '.openupModal', function() {
